@@ -21,6 +21,42 @@ function App() {
     setTodos([...todos, newTodo]);
     setTodoText("");
   };
+  // Deleted Todo
+  const deletedTodo = (id) => {
+    const filteredTodos = todos.filter(
+      (item) => item.id !== id
+    );
+    setTodos(filteredTodos);
+  }
+  // Change hasDone 
+  const changeHasDone = (item) =>{
+     console.log(item);
+     let tempTodos = [];
+     todos.map((i,index)=>{
+      if(i.id  === item.id){
+       let updatedTodo = {
+             ...item,
+             hasDone: !item.hasDone
+       }
+       tempTodos.push(updatedTodo);
+      }else{
+       tempTodos.push(i);
+      }
+     })
+    //  for(let i = 0; i < todos.length; i++){
+    //   if(todos[i].id===todo.id){
+    //      let updatedTodo ={
+    //       ...todo,
+    //       hasDone: !todo.hasDone
+    //      }
+    //      tempTodos.push(updatedTodo);
+    //   }else{
+    //      tempTodos.push(todos[i])
+    //   }
+    //  }
+     setTodos(tempTodos);
+  }
+
   return (
     <div className="container my-5">
       <form onSubmit={handleSubmit}>
@@ -60,18 +96,13 @@ function App() {
                 </div>
                 <div>
                   <button
-                    onClick={() => {
-                      const filteredTodos = todos.filter(
-                        (item) => item.id !== todo.id
-                      );
-                      setTodos(filteredTodos);
-                    }}
+                    onClick={() =>{deletedTodo(todo.id)}}
                     className="btn btn-sm btn-danger"
                   >
                     Delete
                   </button>
                   <button className="btn btn-sm btn-secondary">Edit</button>
-                  <button className="btn btn-sm btn-success">
+                  <button onClick = {()=>{changeHasDone(todo)}}className="btn btn-sm btn-success">
                     {todo.hasDone === true ? "Done" : "Undone"}
                   </button>
                 </div>
